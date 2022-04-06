@@ -1,0 +1,105 @@
+@value imgSize: 125px;
+
+.table{
+    width: 80%;
+    min-width: 800px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin-top: 1.25rem/* 20px */;
+    margin-bottom: 1.25rem/* 20px */;
+    padding: 10px;
+}
+
+.head {
+    background-color: black;
+    color: #ffffff;
+}
+
+.column{
+    width: fit-content;
+    padding: 10px;
+}
+
+.imgCol{
+    width: imgSize;
+}
+
+.nameCol h1{
+    font-size: larger;
+}
+
+.nameCol{
+    align-items: flex-start;
+    text-align: left;
+    padding: 10px;
+}
+
+.starsCol{
+    min-width: 175px;
+}
+
+.priceCol{
+    min-width: 120px;
+}
+
+.linkCol{
+    min-width: 125px;
+}
+
+.row {
+    width: 200%;
+    text-align: center;
+    font-size: large;
+}
+
+.row td {
+    padding: 10px;
+}
+
+.img {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    width: auto;
+    max-width: imgSize;
+    height: auto;
+    max-height: imgSize;
+    padding: 0px;
+    border: solid 1px black;
+    margin: 5px;
+}
+
+.imgHolder {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+    width: imgSize;
+    height: imgSize;
+    border: solid 1px black;
+  }
+
+.imgHolder img {
+    object-fit: contain;
+    padding: 0px;
+}
+
+tr.odd {
+    background-color: #fecaca;
+    color:black;
+}
+
+tr.even {
+    background-color: #fee2e2;
+    color:black;
+}
+
+.link a{
+    display: inline-block;
+    background-color: green;
+    width: 105px;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 10px 0px;
+}
