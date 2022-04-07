@@ -1,15 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import ReactDOM from 'react-dom/client';
 import Layout from "../components/Layout";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import Graph from "../components/Graph";
-import Card from "../components/Card";
+import History from "../components/History";
 
 const initData = {
     info: {
-        name: '',
+        name: 'Informe um ID para visualizar o histórico',
         img: '',
         link: '',
         prime: false,
@@ -17,24 +16,44 @@ const initData = {
         stars: 0,
     },
     list: [{
-        date: "01/01/2000",
+        date: "",
         price: 0
-    },
-    {
-        date: "01/01/2001",
-        price: 0
-    }]
+    },]
 }
+let firstRender = false
 
 export default function Search() {
+    
+    console.log("Iniciou", firstRender)
+    const router = useRouter();
 
-    const router = useRouter()
-    const initID = router.query.productID
-
-    const [ID, setID] = useState(initID)
+    const [ID, setID] = useState("")
     const [Data, setData] = useState(initData)
 
+
+    useEffect(() => {
+        if (ID!="" && router.isReady && router.query.productID){
+            if (!firstRender) {fetchData(ID)
+            firstRender = true
+            console.log("Realizando a busca do estado inicial", ID)
+            renderData()}
+        }
+    }, [ID])
+    
+    useEffect(() => {
+        if (router.isReady && router.query.productID){
+            setID(`${router.query.productID}`)
+            firstRender = true   
+        }
+    },[router.isReady])
+
+    useEffect(() => {
+        renderData()
+    }, [Data])
+
+
     function fetchData(ID) {
+        if (ID == "") return
         fetch('../api/mongo-adapter', {
             method: 'post', // opcional
             body: JSON.stringify({ productID: ID })
@@ -42,37 +61,34 @@ export default function Search() {
             .then(response => response.json())
             //   .then(data => console.log(data))
             .then(async data => {
-                await setData(data)
+                setData(data)
                 console.log("Setando Data com ", data)
-                return data
             })
             .catch(function (err) {
                 console.error(err);
             })
     }
 
-    const renderData = async e => {
+    const renderData = () => {
+        const root = ReactDOM.createRoot(document.getElementById("data") as HTMLElement);
+        root.render(
+            <History Data={Data}></History>
+        )
+    }
+
+    const handleClick = e => {
         e.preventDefault()
         try {
-            const response = fetchData(ID)
+            fetchData(ID)
         } catch (error) {
             console.error(error)
         }
-        // console.log("Dados obtidos:\n", Data)
-
-        const root = ReactDOM.createRoot(document.getElementById("data") as HTMLElement);
-        root.render(
-            <div className="flex flex-row">
-                <Card info={Data.info}></Card>
-                <Graph data={Data.list}></Graph>
-            </div>
-        )
     }
 
     return (
         <div className={`h-screen w-screen text-white`}>
             <Layout title='Busca de produtos'>
-                <form onSubmit={renderData}>
+                <form onSubmit={handleClick} className="flex flex-row">
                     <Input
                         text="ProductID"
                         type="text"
@@ -85,7 +101,7 @@ export default function Search() {
                     <Button type="submit" color="green">Buscar Preços</Button>
                 </form>
                 <div id="data" className="mt-10 h-full w-full">
-                    Aqui ficará as infos
+                    Informe um ID para visualizar o histórico
                 </div>
             </Layout>
         </div>

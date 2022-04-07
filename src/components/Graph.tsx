@@ -47,9 +47,9 @@ export default function Graph(props: GraphProps) {
         }]
     };
     return (
-        <div className="bg-white text-black w-full p-5">
+        <div className="bg-white text-black w-3/4 p-5 min-w-min">
             <h2 className='text-3xl text-center'>Histórico de preços</h2>
-            <div className='m-10 '>
+            <div className='m-10'>
                 <Line data={data} />
             </div>
         </div>

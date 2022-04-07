@@ -9,7 +9,7 @@ interface InputProps {
 
 export default function Input(props: InputProps) {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mr-5">
             <label className="mb-2">
                 {props.text}
             </label>

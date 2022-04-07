@@ -7,11 +7,9 @@ async function handler(req, res) {
 }
 
 async function getResults(req) {
-    const query = {
-        productID: JSON.parse(req.body)
-    }
+    const query = JSON.parse(req.body)
     console.log("Procurando por:", query)
-    const docs = await Results.find(JSON.parse(req.body))
+    const docs = await Results.find(query)
     return docs
 }
 
@@ -29,13 +27,27 @@ function Manipulator(data){
         list: []
     }
     data.forEach(result => {
-        if (newData.list.some(e => e.date === result.date)) {
-            // console.log("Já tem ",result.date)
-            // if (e.price > result.price) {
-            //     e.price = result.price
-            // }
+        const sameDate = newData.list.find(e => e.date === result.date) 
+        
+        if (sameDate) {
+            if (sameDate.price > result.price){
+                // newData.list.findOneAndUpdate(e => e.date === result.date, 
+                //     {date:result.date, price:result.price}, 
+                //     function (err, docs) {
+                //         if (err) { console.log(err) }
+                //         else { console.log("Updated Docs : ", docs); 
+                //     }
+                // })
+                newData.list.push({date:result.date, price:result.price})
+            }
         }
-        else newData.list.push({date:result.date, price:result.price})
+        else {
+            if (result.price) newData.list.push(
+                {
+                    date:result.date, 
+                    price:result.price,
+                })
+        } 
     });
     return newData
 }
