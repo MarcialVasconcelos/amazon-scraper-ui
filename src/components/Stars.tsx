@@ -21,7 +21,7 @@ import { RiStarFill, RiStarHalfFill, RiStarLine } from "react-icons/ri";
 
 
 export default function Stars(props) {
-    const rate = Math.abs(props.rate)
+    const rate = Math.abs(props.rate ?? 0)
 
     const totalStars = 5
     let fullStars = Math.floor(rate)

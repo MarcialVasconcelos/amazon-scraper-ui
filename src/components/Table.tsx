@@ -5,12 +5,13 @@ export default function Table(props) {
     function renderHeader() {
         return (
             <tr>
-                <th className={styles.imgCol}>   Imagem</th>
-                <th className={styles.nameCol}>  Produto</th>
-                <th className={styles.priceCol}> Preço</th>
-                <th className={styles.starsCol}> Classificação</th>
-                <th className={styles.column}>   ProductID</th>
-                <th className={styles.linkCol}>  Link</th>
+                <th className={styles.imgCol}>      Imagem</th>
+                <th className={styles.nameCol}>     Produto</th>
+                <th className={styles.priceCol}>    Preço</th>
+                <th className={styles.shipingCol}>  Frete</th>
+                <th className={styles.starsCol}>    Classificação</th>
+                <th className={styles.column}>      ProductID</th>
+                <th className={styles.linkCol}>     Link</th>
             </tr>
         )
     }
@@ -30,7 +31,10 @@ export default function Table(props) {
                         <h2>{(item.price ? `R$ ${item.price.toFixed(2).replace('.',',')}` : "Ausente")}</h2>
                     </td>
                     <td>
-                        <h2>{item.stars} <Stars rate={item.stars}></Stars> </h2>
+                        <h2>{(item.shiping ? `R$ ${item.shiping.toFixed(2).replace('.',',')}` : "Ausente")}</h2>
+                    </td>
+                    <td>
+                        <h2>{item.stars?? 'Ausente'} <Stars rate={item.stars}></Stars> </h2>
                     </td>
                     <td>
                         {item.productID}
